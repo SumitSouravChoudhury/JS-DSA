@@ -60,6 +60,26 @@ class LinkedList {
     }
   }
 
+  insert(data, index) {
+    const newNode = new Node(data);
+    if (index === 0) {
+      newNode.next = this.head;
+      this.head = newNode;
+      return;
+    }
+
+    let curr = this.head;
+    let count = 0;
+    while (curr !== null && count < index - 1) {
+      curr = curr.next;
+      count++;
+    }
+
+    newNode.next = curr.next;
+    curr.next = newNode;
+    this.size++;
+  }
+
   print() {
     let pointer = this.head;
     let result = "";
@@ -71,12 +91,46 @@ class LinkedList {
 
     console.log(result + "null");
   }
+
+  midpoint() {
+    let slow = this.head;
+    let fast = this.head;
+
+    while (slow.next !== null && fast.next.next !== null) {
+      slow = slow.next;
+      fast = fast.next.next;
+    }
+
+    console.log(slow.data);
+  }
+
+  reverse() {
+    let curr = this.head,
+      forw,
+      prev = null;
+
+    while (curr != null) {
+      forw = curr.next;
+      curr.next = prev;
+      prev = curr;
+      curr = forw;
+    }
+
+    this.head = prev;
+  }
 }
 
 const list = new LinkedList();
 list.append(10);
 list.prepend(20);
+list.append(30);
+list.append(40);
+list.append(50);
+list.append(60);
+list.insert(70, 3);
+list.delete(60);
 list.print();
-list.delete(10);
+list.midpoint();
+list.reverse();
 list.print();
 console.log(list.size);
